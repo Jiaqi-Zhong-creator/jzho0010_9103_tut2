@@ -26,8 +26,7 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   //let's calculate the aspect ratio of the image
   imgDrwPrps.aspect = img.width / img.height;
-  //and the aspect ratio of the canvas
-  canvasAspectRatio = width / height;
+  
   calculateImageDrawProps();
   //We can use the width and height of the image to calculate the size of each segment
   let segmentWidth = img.width / numSegments;
@@ -68,10 +67,15 @@ function keyPressed() {
   }
 }
 
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+  calculateImageDrawProps();
+}
 
 function calculateImageDrawProps() {
-
-  //if the image is wider than the canvas
+  //Calculate the aspect ratio of the canvas
+  canvasAspectRatio = width / height;
+  //If the image is wider than the canvas
   if (imgDrwPrps.aspect > canvasAspectRatio) {
     //then we will draw the image to the width of the canvas
     imgDrwPrps.width = width;
@@ -80,7 +84,7 @@ function calculateImageDrawProps() {
     imgDrwPrps.yOffset = (height - imgDrwPrps.height) / 2;
     imgDrwPrps.xOffset = 0;
   } else if (imgDrwPrps.aspect < canvasAspectRatio) {
-    //otherwise we will draw the image to the height of the canvas
+    //Otherwise, we will draw the image to the height of the canvas
     imgDrwPrps.height = height;
     //and calculate the width based on the aspect ratio
     imgDrwPrps.width = height * imgDrwPrps.aspect;
@@ -88,7 +92,7 @@ function calculateImageDrawProps() {
     imgDrwPrps.yOffset = 0;
   }
   else if (imgDrwPrps.aspect == canvasAspectRatio) {
-    //if the aspect ratios are the same then we can draw the image to the canvas size
+    //If the aspect ratios are the same then we can draw the image to the canvas size
     imgDrwPrps.width = width;
     imgDrwPrps.height = height;
     imgDrwPrps.xOffset = 0;
